@@ -58,7 +58,7 @@ export default function BackToTop(props) {
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
-     x<Container>
+     <Container>
         <Repos>
         </Repos>
       </Container>

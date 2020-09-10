@@ -28,14 +28,20 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  
+function get_api(page){
+  const today= new Date();
+  const date= new Date(new Date().setDate(today.getDate()-30));
+  var api= "https://api.github.com/search/repositories?q=created:>"+date.toISOString().split('T')[0]+"&sort=stars&order=desc?page=${page}"
+  return api;
+};
 export default function ComplexGrid() {
+    
     const classes = useStyles();
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
     useEffect(() => {
-      fetch("https://api.github.com/search/repositories?q=created:>2020-08-11&sort=stars&order=desc")
+      fetch(get_api(1))
         .then(res => res.json())
         .then(
           (result) => {
@@ -54,6 +60,7 @@ export default function ComplexGrid() {
     return(
       <div className={classes.root}>
         {items.map((repo,index)=>{
+        
            return  (
                <div>       
         <Paper className={classes.paper}>
@@ -75,7 +82,7 @@ export default function ComplexGrid() {
                     {repo.description}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                 {repo.owner.login}
+                  Submitted on {repo.created_at.split('T')[0]} by {repo.owner.login}
                   </Typography>
                 </Grid>
                 <Typography variant="subtitle2"> 
