@@ -10,7 +10,10 @@
     "@testing-library/user-event": "^7.2.1",
     "eslint": "^6.6.0",
     "react": "^16.13.1",
+    "react-bottom-scroll-listener": "^4.1.0",
     "react-dom": "^16.13.1",
+    "react-infinite-scroller": "^1.2.4",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3"
   },
   "scripts": {

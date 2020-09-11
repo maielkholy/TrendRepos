@@ -7,6 +7,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import{ StarBorderOutlined, ErrorOutlineOutlined } from '@material-ui/icons';
 
+var page=0;
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -27,40 +28,39 @@ const useStyles = makeStyles((theme) => ({
       maxHeight: '100%',
     },
   }));
-
-function get_api(page){
+//retrieve the api according to the page and current date (30 days ago)
+function get_api(){
+  page=page+1;
   const today= new Date();
   const date= new Date(new Date().setDate(today.getDate()-30));
-  var api= "https://api.github.com/search/repositories?q=created:>"+date.toISOString().split('T')[0]+"&sort=stars&order=desc?page=${page}"
+  var api= "https://api.github.com/search/repositories?q=created:>"+date.toISOString().split('T')[0]+"&sort=stars&order=desc&page="+page+"&per_page=100";
   return api;
 };
-export default function ComplexGrid() {
+
+
+export default function Repos() {
     
     const classes = useStyles();
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
+    //retrieve json from api and add to array of items
     useEffect(() => {
-      fetch(get_api(1))
+      fetch(get_api())
         .then(res => res.json())
         .then(
           (result) => {
-            setIsLoaded(true);
+          
             setItems(result.items);
             console.log(result.items)
           },
     
-          (error) => {
-            setIsLoaded(true);
-            setError(error);
-          }
+        
         )
-    }, [])
-    
+    },[]);
+//map items to jsx and complex grid style
     return(
       <div className={classes.root}>
+   
         {items.map((repo,index)=>{
-        
            return  (
                <div>       
         <Paper className={classes.paper}>
