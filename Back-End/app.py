@@ -4,8 +4,10 @@ import requests
 import json
 
 app = Flask(__name__)
+#configure to return pretty JSON
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+#Load top 100 repos created within 30 days
 @app.route('/', methods=['GET'])
 def get_api_repos():
     start_date= (date.today()-timedelta(days=30)).isoformat()
@@ -15,7 +17,7 @@ def get_api_repos():
     repos = repos_dict.get('items')
     languagesData= jsonify(get_languages(repos))
     return languagesData
-
+#Retrieve languages from Repos
 def get_languages(repos):
     languages= {}
     output=[]   
